@@ -1,0 +1,10 @@
+services:
+    wintstar.csshash.admin.controller:
+        class: wintstar\csshash\controller\admin_controller
+        arguments:
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'

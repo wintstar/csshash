@@ -1,0 +1,31 @@
+{
+	"name": "wintstar/csshash",
+	"type": "phpbb-extension",
+	"description": "Hash value in stylesheet.css",
+	"homepage": "https://www.stephan-frank.de",
+	"version": "1.0.0",
+	"time": "2025-05-03",
+	"license": "GPL-2.0-only",
+	"authors": [{
+		"name": "Stephan-Frank",
+		"homepage": "https:/www.stephan-frank.de",
+		"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=7.0.0,<=8.4.0",
+		"composer/installers": "~1.0.0"
+		},
+	"extra": {
+		"display-name": "Hash value stylesheet.css",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.3.0,<3.4.0@dev"
+		},
+		"version-check": {
+			"host": "stephan-frank.de",
+			"directory": "/vc",
+			"filename": "csshash.json",
+			"ssl": true
+		}
+	} 
+}

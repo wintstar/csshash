@@ -1,0 +1,153 @@
+{% include 'overall_header.html' %}
+
+<a id="maincontent"></a>
+
+<h1>{{ L_TITLE }}</h1>
+
+<p>{{ L_TITLE_EXPLAIN }}</p>
+
+{% if S_ERROR %}
+	<div class="errorbox">
+		<h3>{{ L_WARNING }}</h3>
+		<p>{{ ERROR_MSG }}</p>
+	</div>
+{% endif %}
+
+{% if S_INFO %}
+<div class="errorbox notice">
+	<p>{{ lang('INFORMATION') }}</p>
+	<p>{{ HASH_INFO }}</p>
+</div>
+{% endif %}
+
+{% if S_INFO_SUCCESS %}
+<div class="successbox">
+	<p>{{ lang('STYLESHEET') }}</p>
+	<p>{{ HASH_INFO }}</p>
+</div>
+{% endif %}
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+
+	{% if S_STYLE_SELECT %}
+	<fieldset>
+		<legend>{{ lang('STYLE_SELECT') }}</legend>
+		<dl>
+			<dt><label>{{ lang('SELECT_STYLE') ~ lang('COLON') }}</label></dt>
+			<dd>
+				<select name="stylechanger">{{ S_STYLECHANGER_OPTIONS }}</select>
+			</dd>
+		</dl>
+	</fieldset>
+	{% endif %}
+
+{% if S_STYLE_CHECK %}
+	{% if details %}
+	{% for details in details %}
+	<fieldset>
+		<legend>{{ lang('DETAILS') }}</legend>
+		<div class="column1">
+			<dl>
+				<dt><label>{{ lang('STYLE_NAME') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ details.STYLE_NAME }}</strong></dd>
+			</dl>
+			<dl>
+				<dt><label>{{ lang('STYLE_VERSION') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ details.STYLE_VERSION }}</strong></dd>
+			</dl>
+			<dl>
+				<dt><label>{{ lang('STYLE_PHPBB_VERSION') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ details.STYLE_PHPBB_VERSION }}</strong></dd>
+			</dl>
+		</div>
+		<div class="column2">
+			<dl>
+				<dt><label>{{ lang('COPYRIGHT') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ details.STYLE_COPYRIGHT }}</strong></dd>
+			</dl>
+			<dl>
+				<dt><label>{{ lang('INHERITING_FROM') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ details.STYLE_PARENT }}</strong></dd>
+			</dl>
+			<dl>
+				<dt><label>{{ lang('STYLE_ACTIVE') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ details.STYLE_ACTIVE }}</strong></dd>
+			</dl>
+			<dl>
+				<dt><label>{{ lang('STYLE_PATH') ~ lang('COLON') }}</label></dt>
+				<dd><strong>{{ details.STYLE_PATH }}</strong></dd>
+			</dl>
+		</div>
+	</fieldset>
+	{% endfor %}
+	{% endif %}
+{% endif %}
+
+	<fieldset class="submit-buttons">
+		{% if S_CAN_HASH %}
+		<input class="button1" type="submit" id="submit2" name="submit2" value="{{ lang('HASH_VALUE_UPDATE') }}" />&nbsp;
+		{%  elseif S_STYLE_SELECT %}
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+		{% endif %}
+		{% if not S_STYLE_SELECT %}
+		<a class="button1" style="padding:3px 2px;font-weight: unset;" rel="button" href="{{ U_START }}">{{ lang('STYLE_SELECT') }}</a>&nbsp;
+		{% endif %}
+		<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+		{{ S_FORM_TOKEN }}
+		{% if S_STYLE_CHECK %}
+		{{ S_HIDDEN_FIELDS }}
+		{% endif %}
+	</fieldset>
+</form>
+
+{% if S_DISPLAY %}
+<h3>{{ lang('STYLESHEET') }}</h3>
+<p>{{ lang('STYLESHEET_FILES') }}</p>
+<table class="table1 zebra-table no-header" data-no-responsive-header="false">
+	<thead>
+		<tr>
+			<th style="text-align: center;">{{ lang('FILE') }}</th>
+			<th style="text-align: center;">{{ lang('LAST_FILE_CHANGE') }}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% if cssfile %}
+		{% for cssfile in cssfile %}
+		<tr>
+			<td style="text-align: center;">{{ cssfile.FILE }}</td>
+			<td style="text-align: center;">{{ cssfile.LAST_CHANGE }}</td>
+		</tr>
+		{% endfor %}
+	{% endif %}
+	</tbody>
+</table>
+
+<fieldset>
+	<dl>
+		<dt>{{ lang('NEW_FILE_HASH_VALUE') }}</dt>
+	{% if cssdiff %}
+		{% for cssdiff in cssdiff %}
+		<dd>{{ cssdiff.DIFF }}</dd>
+		{% endfor %}
+		{% else %}
+		<dd>{{ lang('NO_FILE_HASH_VALUE') }} }</dd>
+	{% endif %}
+	</dl>
+</fieldset>
+<div class="column1">
+	<fieldset>
+		<legend>{{ lang('STYLESHEET') }}</legend>
+		{{ CSS_FILE_OLD }}
+	</fieldset>
+</div>
+{% if S_UPDATE %}
+<div class="column2">
+	<fieldset>
+		<legend>{{ lang('STYLESHEET_NEW') }}</legend>
+		{{ CSS_FILE_NEW }}
+	</fieldset>
+</div>
+{% endif %}
+{% endif %}
+
+{% include 'overall_footer.html' %}
